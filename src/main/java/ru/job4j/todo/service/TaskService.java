@@ -20,4 +20,6 @@ public interface TaskService {
     Optional<Task> findById(int id);
 
     boolean deleteById(int id);
+
+    void completeTask(int id);
 }

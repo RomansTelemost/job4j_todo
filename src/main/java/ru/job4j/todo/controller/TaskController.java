@@ -70,6 +70,12 @@ public class TaskController {
         return "task/edit";
     }
 
+    @GetMapping("/complete/{id}")
+    public String completeTask(@PathVariable int id) {
+        taskService.completeTask(id);
+        return "redirect:/index";
+    }
+
     @GetMapping("/new")
     public String getNotDoneTask(Model model) {
         model.addAttribute("tasks", taskService.findNewTasks());

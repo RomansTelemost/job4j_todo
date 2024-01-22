@@ -33,34 +33,14 @@
             <div class="form-check mb-3">
                 <input type="checkbox" name="visible" class="form-check-input" id="done"
                        th:field="*{done}">
-                <label class="form-check-label" for="done" readonly="readonly">Выполнена</label>
+                <label class="form-check-label" for="done" readonly="readonly" contenteditable="false">Выполнена</label>
             </div>
-
             <div class="container">
-                <a th:href="@{/index}" class="btn btn-primary" role="button">Выполнить</a>
-                <a th:href="@{/index}" class="btn btn-primary" role="button">Редактировать</a>
+                <a th:href="@{/task/complete/{taskId}(taskId=${task.id})}" class="btn btn-primary" role="button">Выполнить</a>
+                <a th:href="@{/task/{taskId}(taskId=${task.id})}" class="btn btn-primary" role="button">Редактировать</a>
                 <a th:href="@{/index}" class="btn btn-danger" role="button">Отмена</a>
-                <div class="col-6"></div>
                 <a th:href="@{/task/delete/{taskId}(taskId=${task.id})}" class="btn btn-danger" role="button">Удалить</a>
-<!--                <div class="col-6"><a class="btn btn-danger w-100" th:href="@{/index}">Отмена</a></div>-->
-<!--                <div class="col-6"><a class="btn btn-danger w-100" th:href="@{/index}">Выполнить</a></div>-->
-<!--                <div class="col-6"><a class="btn btn-danger w-100" th:href="@{/index}">Редактировать</a></div>-->
-<!--                <div class="col-6"><a class="btn btn-danger w-100"-->
-<!--                                      th:href="@{/task/delete/{taskId}(taskId=${task.id})}">Удалить</a></div>-->
             </div>
-
-
-            <!--                <div class="col-6"/>-->
-            <!--                <div class="col-6">-->
-            <!--                    <div class="row">-->
-            <!--                        <div class="col-6"><a class="btn btn-danger w-100" th:href="@{/index}">Отмена</a></div>-->
-            <!--                        <div class="col-6"><a class="btn btn-danger w-100" th:href="@{/index}">Выполнить</a></div>-->
-            <!--                        <div class="col-6"><a class="btn btn-danger w-100" th:href="@{/index}">Редактировать</a></div>-->
-            <!--                        <div class="col-6"><a class="btn btn-danger w-100" th:href="@{/task/delete/{taskId}(taskId=${task.id})}">Удалить</a></div>-->
-            <!--&lt;!&ndash;                        <div class="col-6"><button class="btn btn-primary w-100" type="submit">Сохранить</button></div>&ndash;&gt;-->
-            <!--                    </div>-->
-            <!--                </div>-->
-            <!--            </div>-->
         </form>
         <footer th:insert="blocks/footer :: footer"></footer>
     </div>

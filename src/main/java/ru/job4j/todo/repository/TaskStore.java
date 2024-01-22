@@ -27,7 +27,7 @@ public class TaskStore implements TaskRepository {
         List<Task> tasks = List.of();
         try {
             session.beginTransaction();
-            Query<Task> query = session.createQuery("FROM Task", Task.class);
+            Query<Task> query = session.createQuery("FROM Task ORDER BY id", Task.class);
             tasks = query.list();
             session.getTransaction().commit();
         } catch (Exception e) {
@@ -155,5 +155,22 @@ public class TaskStore implements TaskRepository {
             session.close();
         }
         return result;
+    }
+
+    @Override
+    public void completeTask(int id) {
+        Session session = sf.openSession();
+        try {
+            session.beginTransaction();
+            Query query = session.createQuery("UPDATE Task SET done = true WHERE id = :taskId");
+            query.setParameter("taskId", id);
+            query.executeUpdate();
+            session.getTransaction().commit();
+        } catch (Exception e) {
+            LOG.error("Error while delete task with id " + id, e);
+            session.getTransaction().rollback();
+        } finally {
+            session.close();
+        }
     }
 }
