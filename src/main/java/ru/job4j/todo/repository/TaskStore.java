@@ -45,7 +45,7 @@ public class TaskStore implements TaskRepository {
         List<Task> tasks = List.of();
         try {
             session.beginTransaction();
-            Query<Task> query = session.createQuery("FROM Task WHERE done is true", Task.class);
+            Query<Task> query = session.createQuery("FROM Task WHERE done is true ORDER BY id", Task.class);
             tasks = query.list();
             session.getTransaction().commit();
         } catch (Exception e) {
@@ -63,7 +63,7 @@ public class TaskStore implements TaskRepository {
         List<Task> tasks = List.of();
         try {
             session.beginTransaction();
-            Query<Task> query = session.createQuery("FROM Task WHERE done is false", Task.class);
+            Query<Task> query = session.createQuery("FROM Task WHERE done is false ORDER BY id", Task.class);
             tasks = query.list();
             session.getTransaction().commit();
         } catch (Exception e) {
