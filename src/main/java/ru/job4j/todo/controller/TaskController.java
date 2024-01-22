@@ -44,7 +44,7 @@ public class TaskController {
         }
     }
 
-    @RequestMapping(method=RequestMethod.POST, value = "/update")
+    @RequestMapping(method = RequestMethod.POST, value = "/update")
     public String update(@ModelAttribute Task task, Model model) {
         try {
             boolean isUpdated = taskService.update(task);
@@ -59,7 +59,7 @@ public class TaskController {
         }
     }
 
-    @RequestMapping(method=RequestMethod.GET, value = "/{id}")
+    @RequestMapping(method = RequestMethod.GET, value = "/{id}")
     public String getById(@PathVariable int id, Model model) {
         Optional<Task> taskOpt = taskService.findById(id);
         if (taskOpt.isEmpty()) {
@@ -82,7 +82,7 @@ public class TaskController {
         return "index";
     }
 
-    @RequestMapping(method=RequestMethod.GET, value = "/view/{id}")
+    @RequestMapping(method = RequestMethod.GET, value = "/view/{id}")
     public String getTaskViewById(@PathVariable int id, Model model) {
         Optional<Task> taskOpt = taskService.findById(id);
         if (taskOpt.isEmpty()) {
