@@ -32,8 +32,8 @@
             </div>
             <div class="form-check mb-3">
                 <input type="checkbox" name="visible" class="form-check-input" id="done"
-                       th:field="*{done}">
-                <label class="form-check-label" for="done" readonly="readonly" contenteditable="false">Выполнена</label>
+                       th:field="*{done}" readonly="disabled" disabled="true" contenteditable="false">
+                <label class="form-check-label" for="done">Выполнена</label>
             </div>
             <div class="container">
                 <a th:href="@{/task/complete/{taskId}(taskId=${task.id})}" class="btn btn-primary" role="button">Выполнить</a>
