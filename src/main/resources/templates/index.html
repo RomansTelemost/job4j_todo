@@ -20,21 +20,21 @@
 <div class="container-fluid p-0">
     <header th:insert="blocks/header :: header"></header>
     <div class="container mt-2">
-        <h3>Список задач</h3>
+        <h3>Tasks</h3>
         <div class="container">
-            <a th:href="@{/task}" class="btn btn-primary" role="button">Все</a>
-            <a th:href="@{/task/done}" class="btn btn-primary" role="button">Выполненные</a>
-            <a th:href="@{/task/new}" class="btn btn-primary" role="button">Новые</a>
-            <a th:href="@{/task/create}" class="btn btn-success" role="button">Создать</a>
+            <a th:href="@{/task}" class="btn btn-primary" role="button">All</a>
+            <a th:href="@{/task/done}" class="btn btn-primary" role="button">Complete</a>
+            <a th:href="@{/task/new}" class="btn btn-primary" role="button">New</a>
+            <a th:href="@{/task/create}" class="btn btn-success" role="button">Create</a>
         </div>
         <div class="row">
             <table class="table">
                 <thead>
                 <tr>
                     <th scope="col">#</th>
-                    <th scope="col">Имя</th>
-                    <th scope="col">Дата создания</th>
-                    <th scope="col">Выполнено</th>
+                    <th scope="col">Title</th>
+                    <th scope="col">Create date</th>
+                    <th scope="col">Complete</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -42,8 +42,8 @@
                     <td th:text="${task.id}"/>
                     <td><a th:text="${task.title}" th:href="@{/task/view/{taskId}(taskId=${task.id})}"></a></td>
                     <td th:text="${#temporals.format(task.created, 'dd.MM.yyyy HH:mm')}"/>
-                    <td th:if="${task.done}">Да</td>
-                    <td th:if="${!task.done}">Нет</td>
+                    <td th:if="${task.done}">Yes</td>
+                    <td th:if="${!task.done}">Not</td>
                 </tr>
                 </tbody>
             </table>

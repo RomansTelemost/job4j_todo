@@ -1,46 +1,51 @@
-### Проект "Список дел" job4j_todo
+### To do list
+A simple to do list to manage your tasks
 
-### Web-приложение по ведению и контролю задач
-    Доступные действия:
-    1. Вывод всех заданий;
-    2. Отображение списка заданий по одному статусу;
-    3. Добавление/ редактирование заданий;
+### Main logic of the Web-app
+* Display all / completed / new task
+* Create / edit / remove task
 
-### Стек технологий
+### Used technologies
     Java 17
     Spring Boot 2.7.6
-    Thymeleaf
-    Bootstrap CSS
+    Thymeleaf 3.0.15
     Hibernate 5.6
-    PostgreSQL 15.1 (драйвер JDBC 42.5.1)
+    PostgreSQL 12 (драйвер JDBC 42.5.1)
     Checkstyle 10.0
     Liquibase 4.15.0
+    Lombok 1.18.22
+    Checkstyle plugin 5.85.1
 
-### Требование к окружению
+### Environment requirements
     - Java 17
     - Maven 3.8
-    - PostgreSQL 15
+    - PostgreSQL 12
 
-### Как запустить проект
+### How to run the project
+* Clone the project from this repo
+* Create a local database "todo"
+* Run liquibase:update to create and fill tables
+* Launch the app through the Main class, located in folder src\main\java\ru\job4j\todo\Main
+* Application access page localhost:8080
    
-### Взаимодействие с приложением
+### App screenshots
 
-1) Главная страница WEB-приложения (По умолчанию отображает всё задачи):
-![img.png](image/Main.png)
+1) Home page (Show all tasks by default):
+![img.png](image/MainPage.png)
 
-2) Фильтр задач с помощью кнопок (Все, Выполненные, Новые)
-- Все отображает все задачи - По умолчанию
-- Выполненные - отображает задачи с признаком "Выполнено"
-![img.png](image/DoneTask.png)
-- Новые - отображает задачи которые еще не были выполнены
-![img.png](image/NotCompleteTask.png)
-
-3) Создание новой задачи
+2) Filter task by bottoms (All, Complete, New)
+- Show all tasks by default
+- Complete - Show tasks with sign Complete = true
+![img.png](image/CompleteTask.png)
+- New - Show tasks with sign Complete = false
 ![img.png](image/NewTask.png)
 
-4) Просмотр детального описания задачи - без возможности редактировать
+3) Create new task
+![img.png](image/CreateTask.png)
+
+4) View task description - no editing possible
 ![img.png](image/ViewTask.png)
 
-5) Редакитрование задачи - доступно из формы просмотра детального описания
-![img.png](image/Edit.png)
+5) Edit task - Can access through view description form
+![img.png](image/EditTask.png)
 

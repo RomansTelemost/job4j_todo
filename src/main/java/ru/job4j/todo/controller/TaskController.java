@@ -3,6 +3,7 @@ package ru.job4j.todo.controller;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import ru.job4j.todo.model.Task;
 import ru.job4j.todo.service.TaskService;
@@ -34,7 +35,7 @@ public class TaskController {
     }
 
     @PostMapping("/create")
-    public String create(@ModelAttribute Task task, Model model) {
+    public String create(@ModelAttribute Task task, Model model, BindingResult bindingResult) {
         try {
             taskService.save(task);
             return "redirect:/index";
@@ -44,22 +45,17 @@ public class TaskController {
         }
     }
 
-    @RequestMapping(method = RequestMethod.POST, value = "/update")
+    @PostMapping("/update")
     public String update(@ModelAttribute Task task, Model model) {
-        try {
-            boolean isUpdated = taskService.update(task);
-            if (!isUpdated) {
-                model.addAttribute("message", "Задача с указанным идентификатором не найдена");
-                return "error/404";
-            }
-            return "redirect:/index";
-        } catch (Exception e) {
-            model.addAttribute("message", e.getMessage());
+        boolean isUpdated = taskService.update(task);
+        if (!isUpdated) {
+            model.addAttribute("message", "Задача с указанным идентификатором не найдена");
             return "error/404";
         }
+        return "redirect:/index";
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "/{id}")
+    @GetMapping("/{id}")
     public String getById(@PathVariable int id, Model model) {
         Optional<Task> taskOpt = taskService.findById(id);
         if (taskOpt.isEmpty()) {
@@ -71,8 +67,12 @@ public class TaskController {
     }
 
     @GetMapping("/complete/{id}")
-    public String completeTask(@PathVariable int id) {
-        taskService.completeTask(id);
+    public String completeTask(@PathVariable int id, Model model) {
+        boolean isCompleted = taskService.completeTask(id);
+        if (!isCompleted) {
+            model.addAttribute("message", "Задача не была обновлена");
+            return "error/404";
+        }
         return "redirect:/index";
     }
 
@@ -82,7 +82,7 @@ public class TaskController {
         return "index";
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "/view/{id}")
+    @GetMapping("/view/{id}")
     public String getTaskViewById(@PathVariable int id, Model model) {
         Optional<Task> taskOpt = taskService.findById(id);
         if (taskOpt.isEmpty()) {

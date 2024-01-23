@@ -49,7 +49,7 @@ public class SimpleTaskService implements TaskService {
     }
 
     @Override
-    public void completeTask(int id) {
-        taskRepository.completeTask(id);
+    public boolean completeTask(int id) {
+        return taskRepository.completeTask(id);
     }
 }

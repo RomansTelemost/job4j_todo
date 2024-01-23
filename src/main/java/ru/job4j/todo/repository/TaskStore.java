@@ -100,11 +100,10 @@ public class TaskStore implements TaskRepository {
         try {
             session.beginTransaction();
             int effectedRows = session.createQuery(
-                    "UPDATE Task SET title = :pTitle, description = :pDescription, done = :pDone WHERE id = :pId")
+                    "UPDATE Task SET title = :pTitle, description = :pDescription WHERE id = :pId")
+                    .setParameter("pId", task.getId())
                     .setParameter("pTitle", task.getTitle())
                     .setParameter("pDescription", task.getDescription())
-                    .setParameter("pDone", task.isDone())
-                    .setParameter("pId", task.getId())
                     .executeUpdate();
             session.getTransaction().commit();
             result = effectedRows >= 1;
@@ -158,19 +157,22 @@ public class TaskStore implements TaskRepository {
     }
 
     @Override
-    public void completeTask(int id) {
+    public boolean completeTask(int id) {
         Session session = sf.openSession();
+        boolean result = false;
         try {
             session.beginTransaction();
             Query query = session.createQuery("UPDATE Task SET done = true WHERE id = :taskId");
             query.setParameter("taskId", id);
             query.executeUpdate();
             session.getTransaction().commit();
+            result = true;
         } catch (Exception e) {
             LOG.error("Error while delete task with id " + id, e);
             session.getTransaction().rollback();
         } finally {
             session.close();
         }
+        return result;
     }
 }

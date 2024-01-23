@@ -21,5 +21,5 @@ public interface TaskRepository {
 
     boolean deleteById(int id);
 
-    void completeTask(int id);
+    boolean completeTask(int id);
 }
