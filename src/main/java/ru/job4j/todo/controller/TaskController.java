@@ -17,16 +17,16 @@ public class TaskController {
 
     private final TaskService taskService;
 
-    @GetMapping()
+    @GetMapping("/all")
     public String getAll(Model model) {
         model.addAttribute("tasks", taskService.findAll());
-        return "index";
+        return "redirect:/index";
     }
 
     @GetMapping("/done")
     public String getDoneTask(Model model) {
         model.addAttribute("tasks", taskService.findDoneTasks());
-        return "index";
+        return "redirect:/index";
     }
 
     @GetMapping("/create")
@@ -79,7 +79,7 @@ public class TaskController {
     @GetMapping("/new")
     public String getNotDoneTask(Model model) {
         model.addAttribute("tasks", taskService.findNewTasks());
-        return "index";
+        return "redirect:/index";
     }
 
     @GetMapping("/view/{id}")
