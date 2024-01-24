@@ -73,7 +73,7 @@ public class TaskController {
             model.addAttribute("message", "Задача не была обновлена");
             return "error/404";
         }
-        return "/index";
+        return "redirect:/index";
     }
 
     @GetMapping("/new")
