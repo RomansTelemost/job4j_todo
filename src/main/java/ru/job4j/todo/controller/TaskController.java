@@ -3,9 +3,9 @@ package ru.job4j.todo.controller;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import ru.job4j.todo.model.Task;
+import ru.job4j.todo.model.User;
 import ru.job4j.todo.service.TaskService;
 
 import java.util.Optional;
@@ -35,18 +35,17 @@ public class TaskController {
     }
 
     @PostMapping("/create")
-    public String create(@ModelAttribute Task task, Model model, BindingResult bindingResult) {
-        try {
-            taskService.save(task);
+    public String create(@ModelAttribute Task task, @SessionAttribute("user") User user) {
+        task.setUser(user);
+        if (taskService.save(task).isPresent()) {
             return "redirect:/index";
-        } catch (Exception e) {
-            model.addAttribute("massage", e.getMessage());
-            return "error/404";
         }
+        return "error/404";
     }
 
     @PostMapping("/update")
-    public String update(@ModelAttribute Task task, Model model) {
+    public String update(@ModelAttribute Task task, @SessionAttribute("user") User user, Model model) {
+        task.setUser(user);
         boolean isUpdated = taskService.update(task);
         if (!isUpdated) {
             model.addAttribute("message", "Задача с указанным идентификатором не найдена");
