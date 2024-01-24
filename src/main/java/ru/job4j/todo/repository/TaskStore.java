@@ -100,7 +100,7 @@ public class TaskStore implements TaskRepository {
         try {
             session.beginTransaction();
             int effectedRows = session.createQuery(
-                    "UPDATE Task SET title = :pTitle, description = :pDescription WHERE id = :pId")
+                            "UPDATE Task SET title = :pTitle, description = :pDescription WHERE id = :pId")
                     .setParameter("pId", task.getId())
                     .setParameter("pTitle", task.getTitle())
                     .setParameter("pDescription", task.getDescription())
@@ -162,11 +162,11 @@ public class TaskStore implements TaskRepository {
         boolean result = false;
         try {
             session.beginTransaction();
-            Query query = session.createQuery("UPDATE Task SET done = true WHERE id = :taskId");
-            query.setParameter("taskId", id);
-            query.executeUpdate();
+            int effectedRows = session.createQuery("UPDATE Task SET done = true WHERE id = :taskId")
+                    .setParameter("taskId", id)
+                    .executeUpdate();
             session.getTransaction().commit();
-            result = true;
+            result = effectedRows >= 1;
         } catch (Exception e) {
             LOG.error("Error while delete task with id " + id, e);
             session.getTransaction().rollback();
