@@ -20,13 +20,13 @@ public class TaskController {
     @GetMapping("/all")
     public String getAll(Model model) {
         model.addAttribute("tasks", taskService.findAll());
-        return "redirect:/index";
+        return "/index";
     }
 
     @GetMapping("/done")
     public String getDoneTask(Model model) {
         model.addAttribute("tasks", taskService.findDoneTasks());
-        return "redirect:/index";
+        return "/index";
     }
 
     @GetMapping("/create")
@@ -73,13 +73,13 @@ public class TaskController {
             model.addAttribute("message", "Задача не была обновлена");
             return "error/404";
         }
-        return "redirect:/index";
+        return "/index";
     }
 
     @GetMapping("/new")
     public String getNotDoneTask(Model model) {
         model.addAttribute("tasks", taskService.findNewTasks());
-        return "redirect:/index";
+        return "/index";
     }
 
     @GetMapping("/view/{id}")

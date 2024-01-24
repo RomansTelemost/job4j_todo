@@ -38,6 +38,8 @@ public class AuthorizationFilter extends HttpFilter {
                 || uri.startsWith("/task/done")
                 || uri.startsWith("/task/new")
                 || uri.startsWith("/task/view")
+                || uri.startsWith("/image")
+                || uri.equals("/")
                 || uri.startsWith("/js")
                 || uri.startsWith("/css");
     }

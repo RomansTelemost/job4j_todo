@@ -45,8 +45,8 @@ public class UserController {
     public String register(@ModelAttribute User user, HttpServletRequest request, Model model) {
         var savedUser = userService.save(user);
         if (savedUser.isEmpty()) {
-            model.addAttribute("message", "Login is already taken");
-            return "errors/404";
+            model.addAttribute("error", "Login is already taken");
+            return "redirect:/user/register";
         }
         request.getSession().setAttribute("user", user);
         return "redirect:/index";

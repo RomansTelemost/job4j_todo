@@ -1,4 +1,4 @@
-CREATE TABLE todo_user (
+CREATE TABLE users (
 id SERIAL PRIMARY KEY,
 name varchar not null,
 login varchar unique not null,

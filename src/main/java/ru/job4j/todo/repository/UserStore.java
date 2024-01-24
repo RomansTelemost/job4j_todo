@@ -25,7 +25,7 @@ public class UserStore implements UserRepository {
         try {
             session.beginTransaction();
             Query<User> query = session.createQuery(
-                    "FROM todo_user WHERE id = :pId", User.class);
+                    "FROM User WHERE id = :pId", User.class);
             query.setParameter("pId", id);
             userOpt = query.uniqueResultOptional();
             session.getTransaction().commit();
@@ -45,7 +45,7 @@ public class UserStore implements UserRepository {
         try {
             session.beginTransaction();
             Query<User> query = session.createQuery(
-                    "SELECT * FROM todo_user WHERE login = :login", User.class);
+                    "SELECT * FROM User WHERE login = :login", User.class);
             query.setParameter("login", login);
             userOpt = query.uniqueResultOptional();
             session.getTransaction().commit();
