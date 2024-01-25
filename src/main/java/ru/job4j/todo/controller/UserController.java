@@ -29,8 +29,8 @@ public class UserController {
     public String loginUser(@ModelAttribute User user, HttpServletRequest request, Model model) {
         var userOpt = userService.findByLoginAndPassword(user.getLogin(), user.getPassword());
         if (userOpt.isEmpty()) {
-            model.addAttribute("error", "login or password isn't correct");
-            return "user/login";
+            model.addAttribute("message", "login or password isn't correct");
+            return "error/404";
         }
         request.getSession().setAttribute("user", userOpt.get());
         return "redirect:/index";
@@ -45,8 +45,8 @@ public class UserController {
     public String register(@ModelAttribute User user, HttpServletRequest request, Model model) {
         var savedUser = userService.save(user);
         if (savedUser.isEmpty()) {
-            model.addAttribute("error", "Login is already taken");
-            return "redirect:/user/register";
+            model.addAttribute("message", "Login is already taken");
+            return "error/404";
         }
         request.getSession().setAttribute("user", user);
         return "redirect:/index";
