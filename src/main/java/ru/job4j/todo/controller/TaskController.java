@@ -4,10 +4,13 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import ru.job4j.todo.model.Priority;
 import ru.job4j.todo.model.Task;
 import ru.job4j.todo.model.User;
+import ru.job4j.todo.service.PriorityService;
 import ru.job4j.todo.service.TaskService;
 
+import java.util.List;
 import java.util.Optional;
 
 @Controller
@@ -16,6 +19,7 @@ import java.util.Optional;
 public class TaskController {
 
     private final TaskService taskService;
+    private final PriorityService priorityService;
 
     @GetMapping("/all")
     public String getAll(Model model) {
@@ -30,17 +34,18 @@ public class TaskController {
     }
 
     @GetMapping("/create")
-    public String create() {
+    public String create(Model model) {
+        model.addAttribute("priorities", priorityService.findAll());
         return "task/create";
     }
 
     @PostMapping("/create")
-    public String create(@ModelAttribute Task task, @SessionAttribute("user") User user) {
+    public String create(@ModelAttribute Task task, @RequestParam List<Integer> priority, @SessionAttribute("user") User user) {
         task.setUser(user);
-        if (taskService.save(task).isPresent()) {
-            return "redirect:/index";
+        if (!taskService.save(task).isPresent()) {
+            return "error/404";
         }
-        return "error/404";
+        return "redirect:/index";
     }
 
     @PostMapping("/update")
@@ -62,6 +67,7 @@ public class TaskController {
             return "error/404";
         }
         model.addAttribute("task", taskOpt.get());
+        model.addAttribute("priorities", priorityService.findAll());
         return "task/edit";
     }
 
@@ -89,6 +95,7 @@ public class TaskController {
             return "error/404";
         }
         model.addAttribute("task", taskOpt.get());
+        model.addAttribute("priorities", priorityService.findAll());
         return "task/view";
     }
 

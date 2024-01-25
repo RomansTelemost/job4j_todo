@@ -26,6 +26,13 @@
                        placeholder="Title" readonly="readonly">
             </div>
             <div class="mb-3">
+                <label for="priority">Priority</label>
+                <select class="form-control" id="priority" name="priority" aria-readonly="true">
+                    <option th:each="priority : ${priorities}" th:value="${priority.id}" th:text="${priority.name}"
+                            th:field="*{priority}" th:selected="${priority.id==priority}"></option>
+                </select>
+            </div>
+            <div class="mb-3">
                 <label for="description" class="form-label"><b>Description</b></label>
                 <textarea class="form-control" id="description" name="description" th:field="*{description}" rows="25"
                           placeholder="Describe the task" readonly="readonly"></textarea>
