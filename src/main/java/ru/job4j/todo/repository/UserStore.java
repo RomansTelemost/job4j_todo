@@ -1,6 +1,8 @@
 package ru.job4j.todo.repository;
 
 import lombok.AllArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 import ru.job4j.todo.model.User;
 
@@ -12,6 +14,8 @@ import java.util.Optional;
 public class UserStore implements UserRepository {
 
     private final CrudRepository cr;
+
+    private static final Logger LOG = LoggerFactory.getLogger(TaskStore.class.getName());
 
     @Override
     public Optional<User> findById(int id) {
@@ -39,7 +43,12 @@ public class UserStore implements UserRepository {
 
     @Override
     public Optional<User> save(User user) {
-        cr.run(session -> session.persist(user));
+        try {
+            cr.run(session -> session.persist(user));
+        } catch (Exception e) {
+            LOG.error("Error while create user", e);
+            return Optional.empty();
+        }
         return Optional.of(user);
     }
 }
