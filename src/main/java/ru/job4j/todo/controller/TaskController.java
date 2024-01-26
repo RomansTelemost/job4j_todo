@@ -40,9 +40,9 @@ public class TaskController {
     }
 
     @PostMapping("/create")
-    public String create(@ModelAttribute Task task, @RequestParam List<Integer> priority, @SessionAttribute("user") User user) {
+    public String create(@ModelAttribute Task task, @SessionAttribute("user") User user) {
         task.setUser(user);
-        if (!taskService.save(task).isPresent()) {
+        if (taskService.save(task).isEmpty()) {
             return "error/404";
         }
         return "redirect:/index";
