@@ -29,8 +29,16 @@ public class UserController {
     public String loginUser(@ModelAttribute User user, HttpServletRequest request, Model model) {
         var userOpt = userService.findByLoginAndPassword(user.getLogin(), user.getPassword());
         if (userOpt.isEmpty()) {
-            model.addAttribute("message", "login or password isn't correct");
-            return "error/404";
+            /**
+             * В header отображается поле name User - под которым пытались залогиниться.
+             * Т.е. name = "" поэтому не оторабражается кнопка register
+             * Установим Guest user
+             */
+            user = new User();
+            user.setName("Guest");
+            model.addAttribute("user", user);
+            model.addAttribute("error", "login or password isn't correct");
+            return "user/login";
         }
         request.getSession().setAttribute("user", userOpt.get());
         return "redirect:/index";
@@ -45,8 +53,15 @@ public class UserController {
     public String register(@ModelAttribute User user, HttpServletRequest request, Model model) {
         var savedUser = userService.save(user);
         if (savedUser.isEmpty()) {
-            model.addAttribute("message", "Login is already taken");
-            return "error/404";
+            /**
+             * В header отображается поле name User - которого пытались зарегистрировать.
+             * Установим Guest user
+             */
+            user = new User();
+            user.setName("Guest");
+            model.addAttribute("user", user);
+            model.addAttribute("error", "Login is already taken");
+            return "user/register";
         }
         request.getSession().setAttribute("user", user);
         return "redirect:/index";
