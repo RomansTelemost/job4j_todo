@@ -26,11 +26,8 @@
                        placeholder="Title" readonly="readonly">
             </div>
             <div class="mb-3">
-                <label for="priority.id">Priority</label>
-                <select class="form-control" id="priority.id" name="priority.id" disabled>
-                    <option th:each="pr : ${priorities}" th:value="${pr.id}" th:text="${pr.name}"
-                            th:field="*{priority.id}" th:selected="${pr.id==priorityId}"></option>
-                </select>
+                <label for="priority">Priority</label>
+                <input class="form-control" type="text" id="priority" name="priorityName" th:field="*{priority.name}">
             </div>
             <div class="mb-3">
                 <label for="description" class="form-label"><b>Description</b></label>
