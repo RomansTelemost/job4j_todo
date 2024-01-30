@@ -26,6 +26,13 @@
                 </select>
             </div>
             <div class="mb-3">
+                <label for="selectedCategories"><b>Category</b></label>
+                <select multiple class="form-control form control-sm" id="selectedCategories" name="selectedCategories"
+                        size="4" required>
+                    <option th:each="ca : ${categories}" th:value="${ca.id}" th:text="${ca.name}"></option>
+                </select>
+            </div>
+            <div class="mb-3">
                 <label for="description" class="form-label"><b>Description</b></label>
                 <textarea class="form-control" id="description" name="description" rows="25"
                           placeholder="Describe the task"></textarea>

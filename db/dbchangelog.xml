@@ -10,4 +10,7 @@
     <include file="scripts/005_ddl_create_table_priorities.sql" relativeToChangelogFile="true"/>
     <include file="scripts/006_dml_insert_priorities.sql" relativeToChangelogFile="true"/>
     <include file="scripts/007_ddl_alter_table_task.sql" relativeToChangelogFile="true"/>
+    <include file="scripts/008_ddl_create_table_category.sql" relativeToChangelogFile="true"/>
+    <include file="scripts/009_ddl_create_table_categories.sql" relativeToChangelogFile="true"/>
+    <include file="scripts/010_dml_insert_category.sql" relativeToChangelogFile="true"/>
 </databaseChangeLog>
