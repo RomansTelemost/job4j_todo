@@ -21,13 +21,13 @@
             </div>
             <div class="mb-3">
                 <label for="priority.id">Priority</label>
-                <select class="form-control" id="priority.id" name="priority.id">
+                <select class="form-control" id="priority.id" name="priority.id" required>
                     <option th:each="pr : ${priorities}" th:value="${pr.id}" th:text="${pr.name}"></option>
                 </select>
             </div>
             <div class="form-group">
                 <label for="cIds" name="cIds"><b>Categories</b></label>
-                <select class="form-control" id="cIds" name="cIds" multiple>
+                <select class="form-control" id="cIds" name="cIds" multiple required>
                     <option th:each="category: ${categories}"
                             th:text="${category.name}"
                             th:value="${category.id}"></option>
