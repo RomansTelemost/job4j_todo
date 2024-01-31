@@ -8,5 +8,6 @@ import java.util.Set;
 public interface CategoryService {
 
     List<Category> findAll();
+
     Set<Category> findByIds(Set<Integer> ids);
 }
