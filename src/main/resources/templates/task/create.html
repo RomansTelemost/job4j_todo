@@ -25,11 +25,12 @@
                     <option th:each="pr : ${priorities}" th:value="${pr.id}" th:text="${pr.name}"></option>
                 </select>
             </div>
-            <div class="mb-3">
-                <label for="selectedCategories"><b>Category</b></label>
-                <select multiple class="form-control form control-sm" id="selectedCategories" name="selectedCategories"
-                        size="4" required>
-                    <option th:each="ca : ${categories}" th:value="${ca.id}" th:text="${ca.name}"></option>
+            <div class="form-group">
+                <label for="cIds" name="cIds"><b>Categories</b></label>
+                <select class="form-control" id="cIds" name="cIds" multiple>
+                    <option th:each="category: ${categories}"
+                            th:text="${category.name}"
+                            th:value="${category.id}"></option>
                 </select>
             </div>
             <div class="mb-3">

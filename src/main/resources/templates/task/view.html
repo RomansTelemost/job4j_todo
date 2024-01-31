@@ -29,6 +29,14 @@
                 <label for="priority">Priority</label>
                 <input class="form-control" type="text" id="priority" name="priorityName" th:field="*{priority.name}">
             </div>
+            <div class="mb-3 row">
+                <h6>Categories</h6>
+                <div class="mb-3">
+                    <li th:each="category : ${task.categories}">
+                        <span th:text="${category.name}"/>
+                    </li>
+                </div>
+            </div>
             <div class="mb-3">
                 <label for="description" class="form-label"><b>Description</b></label>
                 <textarea class="form-control" id="description" name="description" th:field="*{description}" rows="25"

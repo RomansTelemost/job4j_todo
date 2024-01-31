@@ -11,6 +11,7 @@ import ru.job4j.todo.service.PriorityService;
 import ru.job4j.todo.service.TaskService;
 
 import java.util.Optional;
+import java.util.Set;
 
 @Controller
 @AllArgsConstructor
@@ -41,8 +42,13 @@ public class TaskController {
     }
 
     @PostMapping("/create")
-    public String create(@ModelAttribute Task task, @SessionAttribute("user") User user) {
+    public String create(@ModelAttribute Task task,
+                         @SessionAttribute("user") User user,
+                         @RequestParam(required = false) Set<Integer> cIds) {
         task.setUser(user);
+        if (!cIds.isEmpty()) {
+            task.setCategories(categoryService.findByIds(cIds));
+        }
         if (taskService.save(task).isEmpty()) {
             return "error/404";
         }
@@ -50,8 +56,14 @@ public class TaskController {
     }
 
     @PostMapping("/update")
-    public String update(@ModelAttribute Task task, @SessionAttribute("user") User user, Model model) {
+    public String update(@ModelAttribute Task task,
+                         @SessionAttribute("user") User user,
+                         @RequestParam(required = false) Set<Integer> cIds,
+                         Model model) {
         task.setUser(user);
+        if (!cIds.isEmpty()) {
+            task.setCategories(categoryService.findByIds(cIds));
+        }
         boolean isUpdated = taskService.update(task);
         if (!isUpdated) {
             model.addAttribute("message", "Задача с указанным идентификатором не найдена");
@@ -69,6 +81,7 @@ public class TaskController {
         }
         model.addAttribute("task", taskOpt.get());
         model.addAttribute("priorities", priorityService.findAll());
+        model.addAttribute("categories", categoryService.findAll());
         return "task/edit";
     }
 
@@ -97,6 +110,7 @@ public class TaskController {
         }
         model.addAttribute("task", taskOpt.get());
         model.addAttribute("priorities", priorityService.findAll());
+        model.addAttribute("categories", categoryService.findAll());
         return "task/view";
     }
 
