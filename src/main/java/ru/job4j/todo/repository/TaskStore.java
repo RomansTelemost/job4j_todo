@@ -54,7 +54,7 @@ public class TaskStore implements TaskRepository {
 
     @Override
     public Optional<Task> findById(int id) {
-        return cr.optional("FROM Task t join fetch t.priority WHERE t.id = :pId",
+        return cr.optional("FROM Task t join fetch t.priority join fetch t.categories WHERE t.id = :pId",
                 Task.class,
                 Map.of("pId", id));
     }
