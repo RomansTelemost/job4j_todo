@@ -12,6 +12,9 @@ import ru.job4j.todo.service.UserService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.TimeZone;
 
 @Controller
 @AllArgsConstructor
@@ -36,6 +39,7 @@ public class UserController {
              */
             user = new User();
             user.setName("Guest");
+            user.setTimezone(TimeZone.getDefault().toString());
             model.addAttribute("user", user);
             model.addAttribute("error", "login or password isn't correct");
             return "user/login";
@@ -45,22 +49,27 @@ public class UserController {
     }
 
     @GetMapping("/register")
-    public String getRegistrationPage() {
+    public String getRegistrationPage(Model model) {
+        model.addAttribute("timezones", getDefaultTimeZones());
         return "user/register";
     }
 
     @PostMapping("/register")
-    public String register(@ModelAttribute User user, HttpServletRequest request, Model model) {
+    public String register(@ModelAttribute User user,
+                           HttpServletRequest request,
+                           Model model) {
         var savedUser = userService.save(user);
         if (savedUser.isEmpty()) {
-            /**
+            /**w
              * В header отображается поле name User - которого пытались зарегистрировать.
              * Установим Guest user
              */
             user = new User();
             user.setName("Guest");
+            user.setTimezone(TimeZone.getDefault().toString());
             model.addAttribute("user", user);
             model.addAttribute("error", "Login is already taken");
+            model.addAttribute("timezones", getDefaultTimeZones());
             return "user/register";
         }
         request.getSession().setAttribute("user", user);
@@ -71,5 +80,13 @@ public class UserController {
     public String logout(HttpSession session) {
         session.invalidate();
         return "redirect:/user/login";
+    }
+
+    private List<String> getDefaultTimeZones() {
+        List<String> zones = new ArrayList<>();
+        for (String timeId : TimeZone.getAvailableIDs()) {
+            zones.add(TimeZone.getTimeZone(timeId).getID());
+        }
+        return zones;
     }
 }

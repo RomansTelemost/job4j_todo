@@ -10,6 +10,7 @@ import javax.servlet.http.HttpFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.TimeZone;
 
 @Component
 @Order(2)
@@ -22,6 +23,7 @@ public class SessionFilter extends HttpFilter {
         if (user == null) {
             user = new User();
             user.setName("Guest");
+            user.setTimezone(TimeZone.getDefault().getID());
         }
         request.setAttribute("user", user);
         chain.doFilter(request, response);

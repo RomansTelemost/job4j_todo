@@ -20,5 +20,5 @@ public class User {
     @EqualsAndHashCode.Include
     private String login;
     private String password;
-
+    private String timezone;
 }

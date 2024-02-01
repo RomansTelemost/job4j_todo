@@ -10,8 +10,11 @@ import ru.job4j.todo.service.CategoryService;
 import ru.job4j.todo.service.PriorityService;
 import ru.job4j.todo.service.TaskService;
 
+import java.time.ZoneId;
+import java.util.Collection;
 import java.util.Optional;
 import java.util.Set;
+import java.util.TimeZone;
 
 @Controller
 @AllArgsConstructor
@@ -23,14 +26,20 @@ public class TaskController {
     private final CategoryService categoryService;
 
     @GetMapping("/all")
-    public String getAll(Model model) {
-        model.addAttribute("tasks", taskService.findAll());
+    public String getAll(@SessionAttribute(required = false) User user, Model model) {
+        model.addAttribute("tasks", convertTimeByTimezone(taskService.findAll(), user));
         return "/index";
     }
 
     @GetMapping("/done")
-    public String getDoneTask(Model model) {
-        model.addAttribute("tasks", taskService.findDoneTasks());
+    public String getDoneTask(@SessionAttribute(required = false) User user, Model model) {
+        model.addAttribute("tasks", convertTimeByTimezone(taskService.findDoneTasks(), user));
+        return "/index";
+    }
+
+    @GetMapping("/new")
+    public String getNotDoneTask(@SessionAttribute(required = false) User user, Model model) {
+        model.addAttribute("tasks", convertTimeByTimezone(taskService.findNewTasks(), user));
         return "/index";
     }
 
@@ -95,12 +104,6 @@ public class TaskController {
         return "redirect:/index";
     }
 
-    @GetMapping("/new")
-    public String getNotDoneTask(Model model) {
-        model.addAttribute("tasks", taskService.findNewTasks());
-        return "/index";
-    }
-
     @GetMapping("/view/{id}")
     public String getTaskViewById(@PathVariable int id, Model model) {
         Optional<Task> taskOpt = taskService.findById(id);
@@ -122,5 +125,16 @@ public class TaskController {
             return "errors/404";
         }
         return "redirect:/index";
+    }
+
+    private Collection<Task> convertTimeByTimezone(Collection<Task> tasks, User user) {
+        for (Task task : tasks) {
+            task.setCreated(task.getCreated()
+                    .atZone(ZoneId.of("UTC"))
+                    .withZoneSameInstant(
+                            ZoneId.of(user == null ? TimeZone.getDefault().getID() : user.getTimezone())
+                    ).toLocalDateTime());
+        }
+        return tasks;
     }
 }
