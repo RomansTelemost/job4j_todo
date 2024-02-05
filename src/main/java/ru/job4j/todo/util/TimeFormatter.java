@@ -7,7 +7,10 @@ import java.time.ZoneId;
 import java.util.Collection;
 import java.util.TimeZone;
 
-public class TimeFormatter {
+public final class TimeFormatter {
+
+    private TimeFormatter() {
+    }
 
     public static Collection<Task> convertTimeByTimezone(Collection<Task> tasks, User user) {
         for (Task task : tasks) {
